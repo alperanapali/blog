@@ -1,0 +1,67 @@
+version: '3.8'
+services:
+  nginx:
+    build: .docker/nginx/
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./app:/app
+      - ./.docker/nginx/cert/nginx.crt:/etc/nginx/ssl/nginx.crt
+      - ./.docker/nginx/cert/nginx.key:/etc/nginx/ssl/nginx.key
+    depends_on:
+        - php
+
+  php:
+    build:
+      context: .
+      dockerfile: .docker/php/Dockerfile
+    ports:
+      - "9000:9000"
+    env_file:
+      - ./app/.env
+    volumes:
+      - ./app:/app
+
+  database:
+    image: postgres:latest
+    volumes:
+      - postgres_data:/var/lib/postgresql/data:rw
+      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+      # - ./docker/db/data:/var/lib/postgresql/data:rw
+    environment:
+      POSTGRES_DB: db
+      POSTGRES_USER: alpi
+      POSTGRES_PASSWORD: pass
+
+  # host: host.docker.internal useful haha ;)
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+
+  rabbitmq:
+    image: rabbitmq:latest
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+
+  redis:
+    image: redis:latest
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+
+volumes:
+  postgres_data:
+  pgadmin_data:
+  rabbitmq_data:
+  redis_data:
