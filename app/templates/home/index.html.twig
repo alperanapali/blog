@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <!-- Page Header-->
+    <header class="masthead" style="background-image: {{ asset('/img/home-bg.jpg') }}>
+            <div class="container position-relative px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            <div class="site-heading">
+                <h1>A Minimal Blog</h1>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content-->
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <br>
+                {% for post in posts %}
+                    <div >
+                        <a href="{{ path('app_post_show', {'id': post.id}) }}">
+                            <h2 class="offcanvas-title" >{{ post.title }}</h2>
+                        </a>
+                        <h5 class="bg-body">{{ post.content |raw }}</h5>
+                        <p>
+                            Posted by {{ post.user.email |email_name }}
+                            <div class="">on {{ post.createdAt|date('Y-m-d H:i:s') }}</div>
+                        </p>
+                    </div>
+                    <!-- Divider-->
+                    <hr class="my-4" />
+                {% endfor%}
+                <div class="d-flex justify-content-between mb-4">
+                    <a class="btn btn-outline-secondary" href="{{ path('app_post_new') }}">Add Post</a>
+                    <a class="btn btn-primary" href="#!">Older Posts →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+
+
+

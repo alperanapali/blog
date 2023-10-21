@@ -1,20 +1,32 @@
+{# templates/login/index.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello LoginController!{% endblock %}
-
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div class="d-flex justify-content-center flex-column align-items-center">
+        {% if error %}
+            <div class="alert alert-danger w-50" role="alert">
+                {{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
+        {% endif %}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+        <h1>Login</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/Users/alperanapali/Projects/alper-symfony/base-project-symfony/app/src/Controller/LoginController.php'|file_link(0) }}">src/Controller/LoginController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/Users/alperanapali/Projects/alper-symfony/base-project-symfony/app/templates/login/index.html.twig'|file_link(0) }}">templates/login/index.html.twig</a></code></li>
-    </ul>
-</div>
+        <form action="{{ path('app_login') }}" method="post" class="w-50">
+            <div class="mb-3">
+                <label for="username" class="form-label">Email:</label>
+                <input type="text" id="username" name="_username" value="{{ last_username }}" class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Password:</label>
+                <input type="password" id="password" name="_password" class="form-control">
+            </div>
+
+            {# If you want to control the URL the user is redirected to on success
+            <input type="hidden" name="_target_path" value="/account"> #}
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+    </div>
 {% endblock %}

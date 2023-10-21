@@ -1,0 +1,60 @@
+
+{% block body %}
+<div class="d-flex justify-content-center flex-column align-items-center">
+
+    <div class="container my-5">
+        <!-- Cube Container -->
+        <div class="d-flex justify-content-center">
+            <div id="cube-container" data-controller="cube">
+                <div id="cube" data-target="cube.cubeElement">
+                    {% if is_granted('ROLE_USER') %}
+                        <div class="face text-center py-2">
+                            <a href="{{ path('app_post_profile') }}">
+                                <i class="fa fa-user-circle"></i>
+                                {% if app.user %}
+                                    {{ app.user.email |email_name  }}
+                                {% endif %}
+                            </a>
+                        </div>
+                    {% else %}
+                        <div class="face text-center py-2">
+                            <a href="{{ path('app_login') }}">
+                                <i class="fas fa-sign-in-alt"></i>
+                                Login
+                            </a>
+                        </div>
+                    {% endif %}
+                    <div class="face text-center py-2">
+                        <a href="{{ path('app_logout') }}">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Logout
+                        </a>
+                    </div>
+                    <div class="face text-center py-2">
+                        <a href="{{ path('app_register') }}">
+                            <i class="fas fa-user"></i>
+                            Register
+                        </a>
+                    </div>
+                    <div class="face text-center py-2">
+                        <a href="{{ path('app_post_index') }}">
+                            <i class="fa fa-home"></i>
+                            Home
+                        </a>
+                    </div>
+                    <div class="face text-center py-2">
+                            <p><i class="fa fa-stop"></i> Alpi Blog</p>
+                    </div>
+                    <div class="face text-center py-2">
+                        <a href="{{ path('app_login') }}">
+                            <p><i class="fa fa-address-book"></i> Contact</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

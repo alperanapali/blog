@@ -22,6 +22,7 @@ services:
       - ./app/.env
     volumes:
       - ./app:/app
+      - ./app/vendor:/app/vendor
 
   database:
     image: postgres:latest
