@@ -17,4 +17,10 @@ class HomeController extends AbstractController
             'posts' => $postRepository->findAll(),
         ]);
     }
+
+    #[Route('/contact', name: 'app_contact', methods: ['GET'])]
+    public function contact(): Response
+    {
+        return $this->render('contact.html.twig');
+    }
 }
